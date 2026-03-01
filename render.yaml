@@ -1,4 +1,4 @@
-echo 'services:
+services:
   - type: web
     name: sellery-eccomerce
     env: static
@@ -7,4 +7,4 @@ echo 'services:
     routes:
       - type: rewrite
         source: /*
-        destination: /index.html' > render.yaml
+        destination: /index.html
