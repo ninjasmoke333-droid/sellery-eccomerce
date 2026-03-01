@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { fileURLToPath } from "node:url";
 import { componentTagger } from "lovable-tagger";
+import fs from "fs";
 
 export default defineConfig(({ mode }) => {
   const isDev = mode === "development";
@@ -22,6 +23,12 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       isDev && componentTagger(),
+      {
+        name: "copy-redirects",
+        closeBundle() {
+          fs.writeFileSync("dist/_redirects", "/*    /index.html   200");
+        },
+      },
     ].filter(Boolean),
     resolve: {
       alias: {
@@ -34,7 +41,6 @@ export default defineConfig(({ mode }) => {
         input: "./index.html",
       },
     },
-    // 👇 This explicitly tells Vite to copy _redirects to /dist
     publicDir: "public",
   };
 });
